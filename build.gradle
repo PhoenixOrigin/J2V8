@@ -1,0 +1,32 @@
+plugins {
+    id 'java'
+}
+
+group = 'net.phoenix'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+OperatingSystem system = org.gradle.nativeplatform.platform.internal.DefaultNativePlatform.currentOperatingSystem;
+String os = system.toFamilyName()
+
+dependencies {
+
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    if(os.contains("windows")) {
+        implementation 'com.eclipsesource.j2v8:j2v8_win32_x86_64:4.6.0'
+    }
+    if(os.contains("linux")) {
+        implementation 'com.eclipsesource.j2v8:j2v8_linux_x86_64:4.8.0'
+    }
+    if(os.contains("mac")) {
+        implementation 'com.eclipsesource.j2v8:j2v8_macosx_x86_64:4.6.0'
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
